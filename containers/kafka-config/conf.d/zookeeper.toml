@@ -1,0 +1,8 @@
+[template]
+src = "zookeeper.tmpl"
+dest = "/kafka/config/zookeeper.properties"
+keys = [
+    "/myapp/database/url",
+    "/myapp/database/user",
+]
+

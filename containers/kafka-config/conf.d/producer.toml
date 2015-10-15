@@ -1,0 +1,8 @@
+[template]
+src = "producer.tmpl"
+dest = "/kafka/config/producer.properties"
+keys = [
+    "/myapp/database/url",
+    "/myapp/database/user",
+]
+
