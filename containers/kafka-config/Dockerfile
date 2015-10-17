@@ -1,5 +1,5 @@
 FROM rancher/confd-base:0.11.0-dev-rancher
-
+MAINTAINER Charles Lescot
 ADD ./conf.d /etc/confd/conf.d
 ADD ./templates /etc/confd/templates
 

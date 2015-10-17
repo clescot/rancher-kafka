@@ -1,8 +1,0 @@
-[template]
-src = "tools-log4j.tmpl"
-dest = "/kafka/config/tools-log4j.properties"
-keys = [
-    "/myapp/database/url",
-    "/myapp/database/user",
-]
-

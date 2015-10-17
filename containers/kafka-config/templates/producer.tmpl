@@ -18,7 +18,8 @@
 
 # list of brokers used for bootstrapping knowledge about the rest of the cluster
 # format: host1:port1,host2:port2 ...
-metadata.broker.list=localhost:9092
+metadata.broker.list={{range ls "/self/service/containers"}}{{ $containerName := getv (printf "/self/service/containers/%s" .)}}{{getv (printf "/containers/%s/primary_ip" $containerName)}}:9092,{{end}}
+#metadata.broker.list=localhost:9092
 
 # name of the partitioner class for partitioning events; default partition spreads data randomly
 #partitioner.class=

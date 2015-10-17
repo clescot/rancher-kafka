@@ -7,7 +7,8 @@
 # performance.
 
 FROM netflixoss/java:7
-MAINTAINER Ches Martin <ches@whiskeyandgrits.net>
+# from an im age built by Ches Martin <ches@whiskeyandgrits.net>
+MAINTAINER Charles Lescot
 
 # The Scala 2.10 build is currently recommended by the project.
 ENV KAFKA_VERSION=0.8.2.1 KAFKA_SCALA_VERSION=2.10 JMX_PORT=7203
