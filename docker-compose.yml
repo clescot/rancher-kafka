@@ -1,0 +1,11 @@
+kafka-config:
+  image: clescot/rancher-kafka-config:latest
+  volumes_from:
+    - kafka
+  net: "container:kafka"
+kafka:
+  labels:
+    io.rancher.sidekicks: kafka-config
+#    io.rancher.scheduler.affinity:host_label: zk=rancher
+  image: clescot/rancher-kafka:latest
+

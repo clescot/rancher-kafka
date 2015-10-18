@@ -17,9 +17,8 @@
 ############################# Server Basics #############################
 
 # The id of the broker. This must be set to a unique integer for each broker.
-#broker.id={{KAFKA_BROKER_ID}}
 {{ $containerName := getv "/self/container/name"}}
-broker.id={{getv(printf "/self/service/containers/%s/create_index" $containerName)}}
+broker.id={{getv (printf "/service/containers/%s/create_index" $containerName)}}
 auto.leader.rebalance.enable=true
 
 # Replication
@@ -29,14 +28,13 @@ default.replication.factor=1
 # Hostname the broker will advertise to consumers. If not set, kafka will use the value returned
 # from InetAddress.getLocalHost().  If there are multiple interfaces getLocalHost
 # may not be what you want.
-#advertised.host.name={{KAFKA_ADVERTISED_HOST_NAME}}
 advertised.host.name={{getv (printf "/containers/%s/primary_ip" $containerName)}}
 
 ############################# Socket Server Settings #############################
 
 # The port the socket server listens on
-port={{KAFKA_PORT}}
-advertised.port={{KAFKA_ADVERTISED_PORT}}
+port=9092
+advertised.port=9092
 
 ############################# Log Basics #############################
 
@@ -65,7 +63,6 @@ log.retention.hours=168
 # server. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002".
 # You can also append an optional chroot string to the urls to specify the
 # root directory for all kafka znodes.
-#zookeeper.connect={{ZOOKEEPER_CONNECTION_STRING}}{{ZOOKEEPER_CHROOT}}
 zookeeper.connect={{range ls "/services/zookeeper/containers"}}{{ $containerName := getv (printf "/services/zookeeper/containers/%s" .)}}{{getv (printf "/containers/%s/primary_ip" $containerName)}}:2181,{{end}}
 
 zookeeper.connection.timeout.ms=10000
