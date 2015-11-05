@@ -1,7 +1,7 @@
-FROM clescot/rancher-confd:1
+FROM clescot/rancher-confd:2
 MAINTAINER Charles Lescot
-ADD ./conf.d /etc/confd/conf.d
-ADD ./templates /etc/confd/templates
+COPY ./conf.d /etc/confd/conf.d
+COPY ./templates /etc/confd/templates
 
 VOLUME ["/tmp/kafka-logs", "/kafka/config/"]
 
