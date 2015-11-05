@@ -2,7 +2,7 @@
 src = "consumer.tmpl"
 dest = "/kafka/config/consumer.properties"
 keys = [
-    "/services/zookeeper/containers",
+    "/services",
     "/containers",
 ]
 

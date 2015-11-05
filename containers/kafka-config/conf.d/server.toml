@@ -2,7 +2,9 @@
 src = "server.tmpl"
 dest = "/kafka/config/server.properties"
 keys = [
-    "/myapp/database/url",
-    "/myapp/database/user",
+    "/containers",
+    "/services",
+    "/self/container",
+
 ]
 

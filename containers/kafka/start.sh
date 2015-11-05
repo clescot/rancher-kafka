@@ -1,26 +1,5 @@
 #!/bin/bash -x
 
-# If a ZooKeeper container is linked with the alias `zookeeper`, use it.
-# You MUST set ZOOKEEPER_IP in env otherwise.
-[ -n "$ZOOKEEPER_PORT_2181_TCP_ADDR" ] && ZOOKEEPER_IP=$ZOOKEEPER_PORT_2181_TCP_ADDR
-[ -n "$ZOOKEEPER_PORT_2181_TCP_PORT" ] && ZOOKEEPER_PORT=$ZOOKEEPER_PORT_2181_TCP_PORT
-
-IP=$(cat /etc/hosts | head -n1 | awk '{print $1}')
-
-# Concatenate the IP:PORT for ZooKeeper to allow setting a full connection
-# string with multiple ZooKeeper hosts
-[ -z "$ZOOKEEPER_CONNECTION_STRING" ] && ZOOKEEPER_CONNECTION_STRING="${ZOOKEEPER_IP}:${ZOOKEEPER_PORT:-2181}"
-
-cat /kafka/config/server.properties.template | sed \
-  -e "s|{{ZOOKEEPER_CONNECTION_STRING}}|${ZOOKEEPER_CONNECTION_STRING}|g" \
-  -e "s|{{ZOOKEEPER_CHROOT}}|${ZOOKEEPER_CHROOT:-}|g" \
-  -e "s|{{KAFKA_BROKER_ID}}|${KAFKA_BROKER_ID:-0}|g" \
-  -e "s|{{KAFKA_ADVERTISED_HOST_NAME}}|${KAFKA_ADVERTISED_HOST_NAME:-$IP}|g" \
-  -e "s|{{KAFKA_PORT}}|${KAFKA_PORT:-9092}|g" \
-  -e "s|{{KAFKA_ADVERTISED_PORT}}|${KAFKA_ADVERTISED_PORT:-9092}|g" \
-   > /kafka/config/server.properties
-
-# Kafka's built-in start scripts set the first three system properties here, but
 # we add two more to make remote JMX easier/possible to access in a Docker
 # environment:
 #
@@ -33,6 +12,14 @@ cat /kafka/config/server.properties.template | sed \
 # hosts running in a VM with Docker Machine, etc. See:
 #
 # https://issues.apache.org/jira/browse/CASSANDRA-7087
+
+set -e
+
+while [ ! -f "/kafka/config/server.properties" ]; do
+    sleep 1
+done
+
+
 if [ -z $KAFKA_JMX_OPTS ]; then
     KAFKA_JMX_OPTS="-Dcom.sun.management.jmxremote=true"
     KAFKA_JMX_OPTS="$KAFKA_JMX_OPTS -Dcom.sun.management.jmxremote.authenticate=false"
@@ -42,5 +29,11 @@ if [ -z $KAFKA_JMX_OPTS ]; then
     export KAFKA_JMX_OPTS
 fi
 
+
+
+
+echo " ###################################### /kafka/config/server.properties)"
+
+echo "$(cat /kafka/config/server.properties)"
 echo "Starting kafka"
 exec /kafka/bin/kafka-server-start.sh /kafka/config/server.properties

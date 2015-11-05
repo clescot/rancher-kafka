@@ -2,9 +2,7 @@
 src = "producer.tmpl"
 dest = "/kafka/config/producer.properties"
 keys = [
-  "/self/container/name",
-  "/service/containers",
+  "/self/service",
   "/containers",
-  "/services/zookeeper/containers1",
 ]
 
