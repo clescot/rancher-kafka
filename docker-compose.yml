@@ -1,5 +1,5 @@
 kafka-config:
-0  image: clescot/rancher-kafka-config:2
+  image: clescot/rancher-kafka-config:2
 #  volumes_from:
 #    - kafka
 #  net: "container:kafka"
