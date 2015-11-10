@@ -35,9 +35,8 @@ RUN echo VERIFY CHECKSUM: && \
 RUN tar -zx -C /kafka --strip-components=1 -f ${KAFKA_RELEASE_ARCHIVE} && \
   rm -rf kafka_*
 
-#ADD config /kafka/config
 
-#ADD start.sh /start.sh
+ADD start.sh /start.sh
 
 # Set up a user to run Kafka
 RUN groupadd kafka && \
@@ -49,8 +48,8 @@ WORKDIR /kafka
 
 # broker, jmx
 EXPOSE 9092 ${JMX_PORT}
-VOLUME [ "/data", "/logs","/kafka/config" ]
+VOLUME [ "/data", "/logs"]
 
-#CMD ["/start.sh"]
-CMD ["/bin/bash"]
+CMD ["/start.sh"]
+#CMD ["/bin/bash"]
 
