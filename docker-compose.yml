@@ -3,3 +3,11 @@ kafka:
     io.rancher.scheduler.affinity:host_label: zk=rancher
   image: clescot/rancher-kafka:3
 
+lb:
+  image: rancher/load-balancer-service
+  ports:
+  - 9092/tcp
+  links:
+  - kafka:kafka
+
+
