@@ -14,7 +14,33 @@ MAINTAINER Charles Lescot
 ENV KAFKA_VERSION=0.8.2.2 KAFKA_SCALA_VERSION=2.10 JMX_PORT=7203
 ENV KAFKA_RELEASE_ARCHIVE kafka_${KAFKA_SCALA_VERSION}-${KAFKA_VERSION}.tgz
 
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y  supervisor wget apt-transport-https curl vim
+
+WORKDIR /tmp
+
+# rancher confd section
+ADD https://github.com/rancher/compose-templates/raw/master/utils/containers/confd/confd-0.11.0-dev-rancher-linux-amd64  /usr/local/bin/confd
+RUN chmod +x /usr/local/bin/confd
+
+COPY supervisor.conf /etc/supervisor/conf.d/supervisord.conf
+
+RUN mkdir -p /etc/supervisor/conf.d
+RUN mkdir -p /var/log/supervisor
+RUN chmod -R 600 /var/log/supervisor
+RUN bash -c 'mkdir -p /etc/confd/{conf.d,templates}'
+
+#copy confd inputs
+COPY ./conf.d /etc/confd/conf.d
+COPY ./templates /etc/confd/templates
+
+# end rancher confd section
+
 RUN mkdir /kafka /data /logs
+
+COPY zookeeper.properties /kafka/config/zookeeper.properties
+COPY log4j.properties /kafka/config/log4j.properties
+COPY tools-log4j.properties /kafka/config/tools-log4j.properties
+
 
 RUN apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -24,7 +50,6 @@ RUN apt-get update && \
 ADD http://www.us.apache.org/dist/kafka/${KAFKA_VERSION}/${KAFKA_RELEASE_ARCHIVE} /tmp/
 ADD https://dist.apache.org/repos/dist/release/kafka/${KAFKA_VERSION}/${KAFKA_RELEASE_ARCHIVE}.md5 /tmp/
 
-WORKDIR /tmp
 
 # Check artifact digest integrity
 RUN echo VERIFY CHECKSUM: && \
@@ -42,7 +67,7 @@ ADD start.sh /start.sh
 RUN groupadd kafka && \
   useradd -d /kafka -g kafka -s /bin/false kafka && \
   chown -R kafka:kafka /kafka /data /logs
-USER kafka
+
 ENV PATH /kafka/bin:$PATH
 WORKDIR /kafka
 
@@ -50,6 +75,4 @@ WORKDIR /kafka
 EXPOSE 9092 ${JMX_PORT}
 VOLUME [ "/data", "/logs"]
 
-CMD ["/start.sh"]
-#CMD ["/bin/bash"]
-
+CMD ["/usr/bin/supervisord"]

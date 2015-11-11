@@ -1,0 +1,8 @@
+[template]
+src = "consumer.tmpl"
+dest = "/kafka/config/consumer.properties"
+keys = [
+    "/services",
+    "/containers",
+]
+
