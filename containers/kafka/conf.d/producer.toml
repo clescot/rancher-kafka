@@ -1,8 +1,0 @@
-[template]
-src = "producer.tmpl"
-dest = "/kafka/config/producer.properties"
-keys = [
-  "/self/service",
-  "/containers",
-]
-

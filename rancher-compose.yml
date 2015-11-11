@@ -1,2 +1,2 @@
-kafkaconfig:
+kafka:
   scale: 3
