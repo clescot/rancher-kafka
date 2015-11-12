@@ -5,6 +5,6 @@ keys = [
     "/containers",
     "/services",
     "/self/container",
-
+    "/self/host",
 ]
 
