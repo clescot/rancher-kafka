@@ -28,6 +28,8 @@ default.replication.factor=1
 # Hostname the broker will advertise to consumers. If not set, kafka will use the value returned
 # from InetAddress.getLocalHost().  If there are multiple interfaces getLocalHost
 # may not be what you want.
+
+#{{if pipeline}} T1 {{else}} T0 {{end}}
 advertised.host.name={{getv "/self/host/agent_ip" }}
 
 ############################# Socket Server Settings #############################
@@ -70,3 +72,6 @@ controlled.shutdown.enable=true
 zookeeper.session.timeout.ms=10000
 
 # vim:set filetype=jproperties
+
+
+delete.topic.enable=true
