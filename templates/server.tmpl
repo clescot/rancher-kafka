@@ -29,7 +29,7 @@ default.replication.factor=1
 # from InetAddress.getLocalHost().  If there are multiple interfaces getLocalHost
 # may not be what you want.
 
-#{{if pipeline}} T1 {{else}} T0 {{end}}
+{{/*if pipeline}} T1 {{else}} T0 {{end*/}}
 advertised.host.name={{getv "/self/host/agent_ip" }}
 
 ############################# Socket Server Settings #############################
