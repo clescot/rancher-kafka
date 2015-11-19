@@ -1,17 +1,17 @@
+kafka-config:
+  image: clescot/rancher-kafka-config:16
+
 kafka:
   labels:
     io.rancher.scheduler.affinity:host_label: zk=rancher
     io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+    io.rancher.sidekicks: kafka-config
 
-  image: clescot/rancher-kafka:10
+  image: clescot/rancher-kafka:11
+  volumes_from: 
+   - kafka-config
+
   ports:
    - "9092:9092"
 #   - "7203:7203"
-  metadata:
-      example:
-        name: hello
-        value: world
-      example2:
-        foo: bar
-
 
