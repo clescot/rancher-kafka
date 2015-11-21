@@ -1,9 +1,0 @@
-#!/bin/bash
-
-# Fail hard and fast
-set -eo pipefail
-
-export KAFKA_ADVERTISED_HOST_NAME={{getv "/self/host/agent_ip" }}
-
-echo "KAFKA_ADVERTISED_HOST_NAME=$KAFKA_ADVERTISED_HOST_NAME"
-

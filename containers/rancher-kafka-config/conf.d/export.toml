@@ -1,7 +1,7 @@
 [template]
-src = "export.tmpl"
-dest = "/export.sh"
+src = "advertiser-host-name.tmpl"
+dest = "/kafka/config/advertiser-host-name"
 keys = [
     "/self/host",
 ]
-mode = "0700"
+mode = "0600"
