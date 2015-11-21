@@ -1,10 +1,13 @@
 kafka-config:
-  image: clescot/rancher-kafka-config:16
+  image: clescot/rancher-kafka-config:19
 
 kafka:
   labels:
+#   test selecting host based on labels
     io.rancher.scheduler.affinity:host_label: zk=rancher
+#   only one container per host
     io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
+#   we need to have kafka-config
     io.rancher.sidekicks: kafka-config
 
   image: clescot/rancher-kafka:11
@@ -12,6 +15,8 @@ kafka:
    - kafka-config
 
   ports:
+#  kafka message port
    - "9092:9092"
-#   - "7203:7203"
+#  JMX port
+   - "7203:7203"
 

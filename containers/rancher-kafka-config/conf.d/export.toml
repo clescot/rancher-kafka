@@ -1,0 +1,7 @@
+[template]
+src = "export.tmpl"
+dest = "/export.sh"
+keys = [
+    "/self/host",
+]
+mode = "0700"

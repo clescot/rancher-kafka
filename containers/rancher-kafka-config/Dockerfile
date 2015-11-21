@@ -16,7 +16,9 @@ COPY zookeeper.properties /kafka/config/zookeeper.properties
 COPY log4j.properties /kafka/config/log4j.properties
 COPY tools-log4j.properties /kafka/config/tools-log4j.properties
 
+COPY init.sh /init.sh
+RUN chmod a+x /init.sh
+
 VOLUME /kafka/config
 
-ENTRYPOINT ["/usr/local/bin/confd"]
-CMD ["--interval", "30","--confdir","/etc/confd", "--backend", "rancher", "--prefix", "/2015-07-25"]
+CMD ["/init.sh"]
