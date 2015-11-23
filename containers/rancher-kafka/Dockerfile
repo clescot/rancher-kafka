@@ -53,6 +53,5 @@ WORKDIR /kafka
 EXPOSE 9092 ${JMX_PORT}
 VOLUME [ "/data", "/logs"]
 
-RUN /kafka/config/export.sh
 
-CMD ["/kafka/config/export.sh && /start.sh"]
+CMD ["/start.sh"]

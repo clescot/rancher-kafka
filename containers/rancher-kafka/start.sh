@@ -18,7 +18,12 @@ set -e
 while [ ! -f "/kafka/config/server.properties" ]; do
     sleep 1
 done
-
+if [ -e "/kafka/config/advertiser-host-name" ]; then
+KAFKA_ADVERTISED_HOST_NAME=$(</kafka/config/advertiser-host-name)
+echo "file /kafka/config/advertiser-host-name exist"
+else 
+    echo "File /kafka/config/advertiser-host-name does not exist"
+fi 
 
 if [ -z $KAFKA_JMX_OPTS ]; then
     KAFKA_JMX_OPTS="-Dcom.sun.management.jmxremote=true"
