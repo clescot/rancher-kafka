@@ -14,8 +14,6 @@ MAINTAINER Charles Lescot
 ENV KAFKA_VERSION=0.8.2.2 KAFKA_SCALA_VERSION=2.10 JMX_PORT=7203
 ENV KAFKA_RELEASE_ARCHIVE kafka_${KAFKA_SCALA_VERSION}-${KAFKA_VERSION}.tgz
 
-RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y  supervisor wget apt-transport-https curl vim
-
 WORKDIR /tmp
 
 RUN mkdir /kafka /data /logs

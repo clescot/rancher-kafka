@@ -1,6 +1,6 @@
 [template]
 src = "advertiser-host-name.tmpl"
-dest = "/kafka/config/advertiser-host-name"
+dest = "/kafka/config/advertised-host-name"
 keys = [
     "/self/host",
 ]

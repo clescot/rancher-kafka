@@ -19,34 +19,50 @@
 # The id of the broker. This must be set to a unique integer for each broker.
 {{ $containerName := getv "/self/container/name"}}
 broker.id={{getv "/self/container/create_index"}}
-auto.leader.rebalance.enable=true
+auto.leader.rebalance.enable={{if exists "/self/service/metadata/auto_leader_rebalance"}}{{ getv "/self/service/metadata/auto_leader_rebalance"}}{{else}}true{{end}}
 
 # Replication
-auto.create.topics.enable=true
-default.replication.factor=1
+auto.create.topics.enable={{if exists "/self/service/metadata/auto_create_topics_enable"}}{{ getv "/self/service/metadata/auto_create_topics_enable"}}{{else}}true{{end}}
+default.replication.factor={{if exists "/self/service/metadata/default_replication_factor"}}{{ getv "/self/service/metadata/default_replication_factor"}}{{else}}3{{end}}
 
 # Hostname the broker will advertise to consumers. If not set, kafka will use the value returned
 # from InetAddress.getLocalHost().  If there are multiple interfaces getLocalHost
 # may not be what you want.
+advertised.host.name={{if exists "/self/service/metadata/accessible_from_public_ip"}}{{getv "/self/host/agent_ip" }}{{else}}{{getv "/self/container/primary_ip" }}{{end}}
 
-{{/*if pipeline}} T1 {{else}} T0 {{end*/}}
-advertised.host.name={{getv "/self/host/agent_ip" }}
+#listeners  => not yet configured
+#advertised.listeners => not yet configured
+
+#background.threads={{if exists "/self/service/metadata/background_threads"}}{{ getv "/self/service/metadata/background_threads"}}{{else}}10{{end}}
+
+compression.type={{if exists "/self/service/metadata/compression_type"}}{{ getv "/self/service/metadata/compression_type"}}{{else}}producer{{end}}
+
+delete.topic.enable={{if exists "/self/service/metadata/delete_topic_enable"}}{{ getv "/self/service/metadata/delete_topic_enable"}}{{else}}true{{end}}
+
+host.name={{if exists "/self/service/metadata/use_host_name"}}{{ getv "/self/host/name"}}{{end}}
+
+#leader.imbalance.check.interval.seconds={{if exists "/self/service/metadata/leader_imbalance_check_interval_seconds"}}{{ getv "/self/service/metadata/leader_imbalance_check_interval_seconds"}}{{else}}300{{end}}
+
+#leader.imbalance.per.broker.percentage={{if exists "/self/service/metadata/leader_imbalance_per_broker_percentage"}}{{ getv "/self/service/metadata/leader_imbalance_per_broker_percentage"}}{{else}}10{{end}}
+
 
 ############################# Socket Server Settings #############################
 
 # The port the socket server listens on
-port=9092
-advertised.port=9092
+port={{if exists "/self/service/metadata/port"}}{{getv "/self/service/metadata/port" }}{{else}}9092{end}}
+advertised.port={{if exists "/self/service/metadata/port"}}{{getv "/self/service/metadata/port" }}{{else}}9092{end}}
 
 ############################# Log Basics #############################
 
 # The directory under which to store log files
-log.dir=/data
-log.dirs=/data
+log.dir=/data/kafka-logs-{{getv "/self/container/create_index"}}
+log.dirs=/data/kafka-logs-{{getv "/self/container/create_index"}}
+
+#log.flush.interval.messages={{if exists "/self/service/metadata/log_flush_interval_messages"}}{{getv "/self/service/metadata/log_flush_interval_messages" }}{{else}}9223372036854775807{end}}
 
 # The number of logical partitions per topic per server. More partitions allow greater parallelism
 # for consumption, but also mean more files.
-num.partitions=1
+num.partitions={{if exists "/self/service/metadata/partitions"}}{{getv "/self/service/metadata/partitions" }}{{else}}3{{end}}
 
 ############################# Log Retention Policy #############################
 
@@ -56,8 +72,8 @@ num.partitions=1
 # from the end of the log.
 
 # The minimum age of a log file to be eligible for deletion
-log.retention.hours=168
-
+log.retention.hours={{if exists "/self/service/metadata/log_retention_hours"}}{{getv "/self/service/metadata/log_retention_hours" }}{{else}}168{end}}
+log.cleaner.enable={{if exists "/self/service/metadata/log_cleaner_enable"}}{{getv "/self/service/metadata/log_cleaner_enable" }}{{else}}false{end}}
 ############################# Zookeeper #############################
 
 # Zk connection string (see zk docs for details).
@@ -74,4 +90,3 @@ zookeeper.session.timeout.ms=10000
 # vim:set filetype=jproperties
 
 
-delete.topic.enable=true

@@ -1,5 +1,5 @@
 kafka-config:
-  image: clescot/rancher-kafka-config:21
+  image: clescot/rancher-kafka-config:22
 
 kafka:
   labels:
@@ -10,7 +10,7 @@ kafka:
 #   we need to have kafka-config
     io.rancher.sidekicks: kafka-config
 
-  image: clescot/rancher-kafka:12
+  image: clescot/rancher-kafka:13
   volumes_from: 
    - kafka-config
 
