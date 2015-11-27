@@ -1,7 +1,0 @@
-[template]
-src = "enable-jmx.tmpl"
-dest = "/kafka/config/enable-jmx"
-keys = [
-    "/self/service/metadata",
-]
-mode = "0600"

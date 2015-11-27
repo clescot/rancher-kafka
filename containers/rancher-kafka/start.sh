@@ -18,16 +18,16 @@ set -e
 while [ ! -f "/kafka/config/server.properties" ]; do
     sleep 1
 done
-if [ -e "/kafka/config/advertiser-host-name" ]; then
-KAFKA_ADVERTISED_HOST_NAME=$(</kafka/config/advertised-host-name)
-ENABLE_JMX=$(</kafka/config/enable-jmx)
 
-echo "file /kafka/config/advertiser-host-name exist"
+if [ -e "/kafka/config/advertised-host-name" ]; then
+KAFKA_ADVERTISED_HOST_NAME=$(</kafka/config/advertised-host-name)
+export KAFKA_ADVERTISED_HOST_NAME
+echo "file /kafka/config/advertised-host-name exist"
 else 
-    echo "File /kafka/config/advertiser-host-name does not exist"
+    echo "File /kafka/config/advertised-host-name does not exist"
 fi 
 
-if [ -e $ENABLE_JMX ]; then
+if [ "$ENABLE_JMX" = "true" ];then
     KAFKA_JMX_OPTS="-Dcom.sun.management.jmxremote=true"
     KAFKA_JMX_OPTS="$KAFKA_JMX_OPTS -Dcom.sun.management.jmxremote.authenticate=false"
     KAFKA_JMX_OPTS="$KAFKA_JMX_OPTS -Dcom.sun.management.jmxremote.ssl=false"

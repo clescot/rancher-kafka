@@ -1,5 +1,5 @@
 [template]
-src = "advertiser-host-name.tmpl"
+src = "advertised-host-name.tmpl"
 dest = "/kafka/config/advertised-host-name"
 keys = [
     "/self/host",
