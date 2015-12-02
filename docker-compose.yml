@@ -15,4 +15,4 @@ kafka:
 
   environment:
    - ENABLE_JMX=true
-
+   - accessible_from_public_ip=true
