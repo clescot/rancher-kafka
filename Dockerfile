@@ -10,17 +10,41 @@ FROM netflixoss/java:7
 # from an image built by Ches Martin <ches@whiskeyandgrits.net>
 MAINTAINER Charles Lescot
 
+RUN mkdir /kafka /data /logs
+
+# rancher confd section
+ADD https://github.com/rancher/compose-templates/raw/master/utils/containers/confd/confd-0.11.0-dev-rancher-linux-amd64  /usr/local/bin/confd
+RUN chmod +x /usr/local/bin/confd
+
+RUN bash -c 'mkdir -p /etc/confd/{conf.d,templates}'
+
+#copy confd inputs
+COPY ./conf.d /etc/confd/conf.d
+COPY ./templates /etc/confd/templates
+
+COPY zookeeper.properties /kafka/config/zookeeper.properties
+COPY log4j.properties /kafka/config/log4j.properties
+COPY tools-log4j.properties /kafka/config/tools-log4j.properties
+
+
+# supervisor 
+COPY supervisor.conf /etc/supervisor/conf.d/supervisord.conf
+RUN mkdir -p /etc/supervisor/conf.d
+RUN mkdir -p /var/log/supervisor
+RUN chmod -R 600 /var/log/supervisor
+
+
 # The Scala 2.10 build is currently recommended by the project.
 ENV KAFKA_VERSION=0.8.2.2 KAFKA_SCALA_VERSION=2.10 JMX_PORT=7203
 ENV KAFKA_RELEASE_ARCHIVE kafka_${KAFKA_SCALA_VERSION}-${KAFKA_VERSION}.tgz
 
 WORKDIR /tmp
 
-RUN mkdir /kafka /data /logs
 
+#install supervisor
 RUN apt-get update && \
   DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    ca-certificates
+    ca-certificates supervisor
 
 # Download Kafka binary distribution
 ADD http://www.us.apache.org/dist/kafka/${KAFKA_VERSION}/${KAFKA_RELEASE_ARCHIVE} /tmp/
@@ -52,4 +76,4 @@ EXPOSE 9092 ${JMX_PORT}
 VOLUME [ "/data", "/logs"]
 
 
-CMD ["/start.sh"]
+CMD ["/usr/bin/supervisord"]
