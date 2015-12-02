@@ -1,5 +1,5 @@
 kafkaconfig:
-  image: clescot/rancher-kafka-config:27
+  image: clescot/rancher-kafka-config:31
 
 kafka:
   labels:
@@ -22,3 +22,4 @@ kafka:
 
   environment:
    - ENABLE_JMX=true
+

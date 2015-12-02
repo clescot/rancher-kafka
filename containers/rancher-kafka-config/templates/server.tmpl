@@ -28,13 +28,14 @@ default.replication.factor={{if exists "/self/service/metadata/default_replicati
 # Hostname the broker will advertise to consumers. If not set, kafka will use the value returned
 # from InetAddress.getLocalHost().  If there are multiple interfaces getLocalHost
 # may not be what you want.
-advertised.host.name={{if exists "/self/service/metadata/accessible_from_public_ip"}}{{getv "/self/host/agent_ip" }}{{else}}{{getv "/self/container/primary_ip" }}{{end}}
+#advertised.host.name={{if exists "/self/service/metadata/accessible_from_public_ip"}}{{getv "/self/host/agent_ip" }}{{else}}{{getv "/self/container/primary_ip" }}{{end}}
 
 compression.type={{if exists "/self/service/metadata/compression_type"}}{{ getv "/self/service/metadata/compression_type"}}{{else}}producer{{end}}
 
 delete.topic.enable={{if exists "/self/service/metadata/delete_topic_enable"}}{{ getv "/self/service/metadata/delete_topic_enable"}}{{else}}true{{end}}
 
-host.name={{if exists "/self/service/metadata/use_host_name"}}{{ getv "/self/host/name"}}{{end}}
+host.name={{if exists "/self/service/metadata/accessible_from_public_ip"}}{{getv "/self/host/agent_ip" }}{{else}}{{getv "/self/container/primary_ip" }}{{end}}
+#host.name={{if exists "/self/service/metadata/use_host_name"}}{{ getv "/self/host/name"}}{{end}}
 
 
 ############################# Socket Server Settings #############################
