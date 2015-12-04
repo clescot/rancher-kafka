@@ -40,7 +40,7 @@ host.name={{getv "/self/container/primary_ip" }}
 
 # The port the socket server listens on
 port={{if exists "/self/service/metadata/port"}}{{getv "/self/service/metadata/port" }}{{else}}9092{{end}}
-advertised.port={{if exists "/self/service/metadata/port"}}{{getv "/self/service/metadata/port" }}{{else}}9092{{end}}
+advertised.port={{if exists "/self/service/metadata/advertised_port"}}{{getv "/self/service/metadata/advertised_port" }}{{else}}9092{{end}}
 
 ############################# Log Basics #############################
 
