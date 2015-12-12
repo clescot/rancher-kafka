@@ -19,28 +19,28 @@
 # The id of the broker. This must be set to a unique integer for each broker.
 {{ $containerName := getv "/self/container/name"}}
 broker.id={{getv "/self/container/create_index"}}
-auto.leader.rebalance.enable={{if exists "/self/service/metadata/auto_leader_rebalance"}}{{ getv "/self/service/metadata/auto_leader_rebalance"}}{{else}}true{{end}}
+auto.leader.rebalance.enable={{if exists "/self/service/metadata/kafka/auto_leader_rebalance"}}{{ getv "/self/service/metadata/kafka/auto_leader_rebalance"}}{{else}}true{{end}}
 
 # Replication
-auto.create.topics.enable={{if exists "/self/service/metadata/auto_create_topics_enable"}}{{ getv "/self/service/metadata/auto_create_topics_enable"}}{{else}}true{{end}}
-default.replication.factor={{if exists "/self/service/metadata/default_replication_factor"}}{{ getv "/self/service/metadata/default_replication_factor"}}{{else}}3{{end}}
+auto.create.topics.enable={{if exists "/self/service/metadata/kafka/auto_create_topics_enable"}}{{ getv "/self/service/metadata/kafka/auto_create_topics_enable"}}{{else}}true{{end}}
+default.replication.factor={{if exists "/self/service/metadata/kafka/default_replication_factor"}}{{ getv "/self/service/metadata/kafka/default_replication_factor"}}{{else}}3{{end}}
 
 # Hostname the broker will advertise to consumers. If not set, kafka will use the value returned
 # from InetAddress.getLocalHost().  If there are multiple interfaces getLocalHost
 # may not be what you want.
-advertised.host.name={{if exists "/self/service/metadata/accessible_from_public_ip"}}{{getv "/self/host/agent_ip" }}{{else}}{{getv "/self/container/primary_ip" }}{{end}}
+advertised.host.name={{if exists "/self/service/metadata/kafka/accessible_from_public_ip"}}{{getv "/self/host/agent_ip" }}{{else}}{{getv "/self/container/primary_ip" }}{{end}}
 
-compression.type={{if exists "/self/service/metadata/compression_type"}}{{ getv "/self/service/metadata/compression_type"}}{{else}}producer{{end}}
+compression.type={{if exists "/self/service/metadata/kafka/compression_type"}}{{ getv "/self/service/metadata/kafka/compression_type"}}{{else}}producer{{end}}
 
-delete.topic.enable={{if exists "/self/service/metadata/delete_topic_enable"}}{{ getv "/self/service/metadata/delete_topic_enable"}}{{else}}true{{end}}
+delete.topic.enable={{if exists "/self/service/metadata/kafka/delete_topic_enable"}}{{ getv "/self/service/metadata/kafka/delete_topic_enable"}}{{else}}true{{end}}
 
 host.name={{getv "/self/container/primary_ip" }}
 
 ############################# Socket Server Settings #############################
 
 # The port the socket server listens on
-port={{if exists "/self/service/metadata/port"}}{{getv "/self/service/metadata/port" }}{{else}}9092{{end}}
-advertised.port={{if exists "/self/service/metadata/port"}}{{getv "/self/service/metadata/port" }}{{else}}9092{{end}}
+port={{if exists "/self/service/metadata/kafka/port"}}{{getv "/self/service/metadata/kafka/port" }}{{else}}9092{{end}}
+advertised.port={{if exists "/self/service/metadata/kafka/port"}}{{getv "/self/service/metadata/kafka/port" }}{{else}}9092{{end}}
 
 ############################# Log Basics #############################
 
@@ -50,7 +50,7 @@ log.dirs=/data/kafka-logs-{{getv "/self/container/create_index"}}
 
 # The number of logical partitions per topic per server. More partitions allow greater parallelism
 # for consumption, but also mean more files.
-num.partitions={{if exists "/self/service/metadata/partitions"}}{{getv "/self/service/metadata/partitions" }}{{else}}3{{end}}
+num.partitions={{if exists "/self/service/metadata/kafka/partitions"}}{{getv "/self/service/metadata/kafka/partitions" }}{{else}}3{{end}}
 
 ############################# Log Retention Policy #############################
 
@@ -60,8 +60,8 @@ num.partitions={{if exists "/self/service/metadata/partitions"}}{{getv "/self/se
 # from the end of the log.
 
 # The minimum age of a log file to be eligible for deletion
-log.retention.hours={{if exists "/self/service/metadata/log_retention_hours"}}{{getv "/self/service/metadata/log_retention_hours" }}{{else}}168{{end}}
-log.cleaner.enable={{if exists "/self/service/metadata/log_cleaner_enable"}}{{getv "/self/service/metadata/log_cleaner_enable" }}{{else}}false{{end}}
+log.retention.hours={{if exists "/self/service/metadata/kafka/log_retention_hours"}}{{getv "/self/service/metadata/kafka/log_retention_hours" }}{{else}}168{{end}}
+log.cleaner.enable={{if exists "/self/service/metadata/kafka/log_cleaner_enable"}}{{getv "/self/service/metadata/kafka/log_cleaner_enable" }}{{else}}false{{end}}
 ############################# Zookeeper #############################
 
 # Zk connection string (see zk docs for details).

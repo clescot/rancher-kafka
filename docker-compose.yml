@@ -29,15 +29,3 @@ kafka:
    - "7203"
 #- "7203:7203"
 
-  environment:
-   - ENABLE_JMX=true
-   - auto_leader_rebalance=true
-   - auto_create_topics_enable=true
-   - default_replication_factor=3
-   - accessible_from_public_ip=false
-   - compression_type="producer"
-   - delete_topic_enable=true
-   - port=9092
-   - default_number_of_partitions=12
-   - default_log_retention_hours=168
-   - log_cleaner_enabled=true

@@ -2,7 +2,6 @@ kafka:
   scale: 3
   metadata:
      kafka: 
-       yml: 
          ENABLE_JMX: true
          auto_leader_rebalance: true
          auto_create_topics_enable: true
