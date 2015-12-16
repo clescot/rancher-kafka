@@ -17,7 +17,6 @@
 ############################# Server Basics #############################
 
 # The id of the broker. This must be set to a unique integer for each broker.
-{{ $containerName := getv "/self/container/name"}}
 broker.id={{getv "/self/container/create_index"}}
 auto.leader.rebalance.enable={{if exists "/self/service/metadata/kafka/auto_leader_rebalance"}}{{ getv "/self/service/metadata/kafka/auto_leader_rebalance"}}{{else}}true{{end}}
 

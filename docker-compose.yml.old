@@ -1,9 +1,12 @@
 kafkaconfig:
-  image: clescot/rancher-kafka-config:33
+  image: clescot/rancher-kafka-config:32
   net: 'container:kafka'
-  volumes_from:
-   - kafka
 
+kafkadata:
+  net: none
+  volumes:
+    - /data
+  command: /bin/true
 
 kafka:
   labels:
@@ -12,10 +15,17 @@ kafka:
 #   only one container per host
     io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
 #   we need to have kafka-config
-    io.rancher.sidekicks: kafkaconfig
+    io.rancher.sidekicks: kafkaconfig,kafkadata
 
   image: clescot/rancher-kafka:19
-  volumes:
-    - /data
+  volumes_from: 
+   - kafkaconfig,kafkadata
 
+  ports:
+#  kafka message port
+#   - "9092:9092"
+    - "9092"
+#  JMX port
+    - "7203"
+#- "7203:7203"
 

@@ -49,7 +49,7 @@ WORKDIR /kafka
 
 # broker, jmx
 EXPOSE 9092 ${JMX_PORT}
-VOLUME [ "/data", "/logs"]
+VOLUME ["/logs"]
 
 
 CMD ["/start.sh"]

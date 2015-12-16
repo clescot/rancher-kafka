@@ -1,7 +1,7 @@
 kafka:
   scale: 3
   metadata:
-     kafka: 
+     kafka:
          ENABLE_JMX: true
          auto_leader_rebalance: true
          auto_create_topics_enable: true
@@ -12,5 +12,4 @@ kafka:
          port: 9092
          default_number_of_partitions: 12
          default_log_retention_hours: 168
-         log_cleaner_enabled: true
-
+         log_cleaner_enable: true
