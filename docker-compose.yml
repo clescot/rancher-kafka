@@ -1,18 +1,18 @@
-kafkaconfig:
+kafka-config:
   image: clescot/rancher-kafka-config:33
-  net: 'container:kafka'
+  net: 'container:kafka-main'
   volumes_from:
-   - kafka
+   - kafka-main
 
 
-kafka:
+kafka-main:
   labels:
 #   test selecting host based on labels
     io.rancher.scheduler.affinity:host_label: kafka=true
 #   only one container per host
     io.rancher.scheduler.affinity:container_label_ne: io.rancher.stack_service.name=$${stack_name}/$${service_name}
 #   we need to have kafka-config
-    io.rancher.sidekicks: kafkaconfig
+    io.rancher.sidekicks: kafka-config
 
   image: clescot/rancher-kafka:19
   volumes:
