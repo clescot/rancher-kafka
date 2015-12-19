@@ -9,9 +9,9 @@ kafka:
 
   ports:
 #  kafka message port
-   - "9092:9092"
+#   - "9092:9092"
 #  JMX port
-   - "7203:7203"
+#   - "7203:7203"
 
   environment:
 #enable_jmx need to be specified from catalog
