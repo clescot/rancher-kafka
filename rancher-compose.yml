@@ -1,4 +1,4 @@
-kafkai-main:
+kafka-main:
   scale: 3
 #  metadata:
 #     kafka-main:
