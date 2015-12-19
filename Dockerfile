@@ -13,7 +13,7 @@ MAINTAINER Charles Lescot
 RUN mkdir /kafka /data /logs
 
 # rancher confd section
-ADD https://github.com/rancher/compose-templates/raw/master/utils/containers/confd/confd-0.11.0-dev-rancher-linux-amd64  /usr/local/bin/confd
+ADD https://github.com/kelseyhightower/confd/releases/download/v0.11.0/confd-0.11.0-linux-amd64  /usr/local/bin/confd
 RUN chmod +x /usr/local/bin/confd
 
 RUN bash -c 'mkdir -p /etc/confd/{conf.d,templates}'
