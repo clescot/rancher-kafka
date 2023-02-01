@@ -1,3 +1,5 @@
+# this project is **archived**, i.e **no longer maintained**.
+
 Apache Kafka on Docker
 ======================
 
